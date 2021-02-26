@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class slotMachine implements ActionListener {
@@ -26,29 +27,8 @@ public class slotMachine implements ActionListener {
 	Random rand = new Random();
 	
 	public void run() {
-		frame.setVisible(true);
-		frame.setPreferredSize(new Dimension(400, 400));
-		
-		try {
-			JLabel label = createLabelImage("cherry.jpg");
-			panel.add(label);
-			
-			label = createLabelImage("orange.jpg");
-			panel.add(label);
-			
-			label = createLabelImage("lime.jpg");
-			panel.add(label);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		button.setText("Spin!");
 		button.addActionListener(this);
-		
-		panel.add(button);
-		frame.add(panel);
-		frame.pack();
-		
+		chooseRandomImage();
 	}
 	public String chooseFilename() {
 		String filename = "";
@@ -65,6 +45,38 @@ public class slotMachine implements ActionListener {
 		
 	}
 	
+	public void chooseRandomImage() {
+		frame.dispose();
+		frame = new JFrame();
+		panel = new JPanel();
+		frame.setVisible(true);
+		frame.setPreferredSize(new Dimension(400, 400));
+		try {
+			String image1 = chooseFilename();
+			JLabel label = createLabelImage(image1);
+			panel.add(label);
+			
+			String image2 = chooseFilename();
+			label = createLabelImage(image2);
+			panel.add(label);
+			
+			String image3 = chooseFilename();
+			label = createLabelImage(image3);
+			panel.add(label);
+			
+			if (image1 == image2 && image2 == image3) {
+				JOptionPane.showMessageDialog(null, "YOU WON!");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		button.setText("Spin!");
+		
+		
+		panel.add(button);
+		frame.add(panel);
+		frame.pack();
+	}
 	/*private JLabel createLabelImage(String fileName) throws MalformedURLException{
         URL imageURL = getClass().getResource(fileName);
 	if (imageURL == null){
@@ -88,6 +100,6 @@ public class slotMachine implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		chooseRandomImage();
 	}
 }
